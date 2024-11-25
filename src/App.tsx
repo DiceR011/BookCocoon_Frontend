@@ -1,11 +1,14 @@
 import React from "react";
 import { Timer } from "./components";
+import Layout from "./components/Layout/Layout"
 
 const App: React.FC = () => {
     return (
-        <div className="bg-gray-100">
-            <Timer />
-        </div>
+        <Layout>
+            <div>
+                <Timer />
+            </div>
+        </Layout>
     );
 };
 
