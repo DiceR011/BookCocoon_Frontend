@@ -1,7 +1,6 @@
-// Layout.tsx
 import React, { useState } from "react";
-import Header from "./Layoutcomponents/Header";
-import PopupMenu from "./Layoutcomponents/PopupMenu";
+import Header from "./Header";
+import PopupMenu from "./PopupMenu";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -23,7 +22,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             {/* メインコンテンツ */}
             <main
                 className="flex-grow container mx-auto overflow-hidden"
-                style={{ height: "calc(100vh - 64px)", marginTop: "-25px" }}
+                style={{ height: "calc(100vh - 64px)"}}
             >
                 {children}
             </main>

@@ -1,14 +1,9 @@
 import React from "react";
-import { Timer } from "./components";
-import Layout from "./components/Layout/Layout"
+import { HomeLayout } from "./components/index"
 
 const App: React.FC = () => {
     return (
-        <Layout>
-            <div>
-                <Timer />
-            </div>
-        </Layout>
+        <HomeLayout />
     );
 };
 
