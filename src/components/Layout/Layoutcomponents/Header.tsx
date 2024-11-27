@@ -1,6 +1,7 @@
 // Header.tsx
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
     onToggleMenu: () => void;
@@ -23,15 +24,15 @@ const Header: React.FC<HeaderProps> = ({ onToggleMenu }) => {
 
                 {/* メニューバー */}
                 <nav className="flex space-x-4 sm:mr-20">
-                    <a href="/" className="hover:underline">
+                    <Link to="/" className="hover:underline">
                         ホーム
-                    </a>
-                    <a href="/timer" className="hover:underline">
+                    </Link>
+                    <Link to="/timer" className="hover:underline">
                         タイマー
-                    </a>
-                    <a href="/logs" className="hover:underline">
+                    </Link>
+                    <Link to="/logs" className="hover:underline">
                         ログ
-                    </a>
+                    </Link>
                 </nav>
             </div>
         </header>
