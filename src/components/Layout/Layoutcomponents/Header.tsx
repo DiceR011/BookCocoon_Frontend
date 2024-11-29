@@ -9,7 +9,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onToggleMenu }) => {
     return (
-        <header className="bg-blue-500 text-white py-4 px-4 sm:px-8">
+        <header className="bg-blue-500 text-white py-2 px-4 sm:px-8 sm:py-4">
             <div className="mx-auto flex justify-between items-center">
                 {/* アプリ名 */}
                 <div className="text-lg sm:text-xl font-bold">

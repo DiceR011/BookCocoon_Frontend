@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CenterPopupLayout from "./CenterPopupLayout";
+import AddBookMenu from "../../AddBook/AddBookMenu";
 
 const AddBookButton: React.FC = () => {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -24,7 +25,7 @@ const AddBookButton: React.FC = () => {
             {isPopupVisible && (
                 <CenterPopupLayout onClose={closePopup}>
                     <h2 className="text-xl font-bold mb-4">本を追加</h2>
-                    <p>ここに追加フォームを作成してください。</p>
+                    <AddBookMenu />
                     <button
                         className="mt-4 bg-blue-500 hover:bg-blue-200 text-white px-4 py-2 rounded-lg"
                         onClick={closePopup}
