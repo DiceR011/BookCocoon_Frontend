@@ -26,7 +26,7 @@ const AddBookButton: React.FC = () => {
                     <h2 className="text-xl font-bold mb-4">本を追加</h2>
                     <p>ここに追加フォームを作成してください。</p>
                     <button
-                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
+                        className="mt-4 bg-blue-500 hover:bg-blue-200 text-white px-4 py-2 rounded-lg"
                         onClick={closePopup}
                     >
                         閉じる

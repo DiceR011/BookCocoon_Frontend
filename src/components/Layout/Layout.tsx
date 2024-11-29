@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "./Layoutcomponents/Header";
-import PopupMenu from "./Layoutcomponents/BooklistPopupMenu";
+import BookListPopupMenu from "./Layoutcomponents/BookListPopupMenu";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </main>
 
             {/* ポップアップメニュー */}
-            <PopupMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+            <BookListPopupMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
         </div>
     );
 };
