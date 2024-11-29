@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "./Layoutcomponents/Layout";
+import Layout from "./Layout";
 import HomeContents from "./Layoutcomponents/HomeContents"
 
 const HomeLayout: React.FC = () => {

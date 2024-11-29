@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "./Layoutcomponents/Layout";
+import Layout from "./Layout";
 import { Timer } from "../index"
 
 const Home: React.FC = () => {

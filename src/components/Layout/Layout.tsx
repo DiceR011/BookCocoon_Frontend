@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Header from "./Header";
-import PopupMenu from "./PopupMenu";
+import Header from "./Layoutcomponents/Header";
+import PopupMenu from "./Layoutcomponents/BooklistPopupMenu";
 
 interface LayoutProps {
     children: React.ReactNode;

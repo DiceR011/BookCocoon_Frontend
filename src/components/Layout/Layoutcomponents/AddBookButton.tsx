@@ -1,10 +1,15 @@
-// AddBookButton.tsx
-import React from "react";
+import React, { useState } from "react";
+import CenterPopupLayout from "./CenterPopupLayout";
 
 const AddBookButton: React.FC = () => {
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+
     const handleAddBook = () => {
-        // 本を追加する処理をここで実装
-        console.log("本を追加しました");
+        setIsPopupVisible(true); // ポップアップを表示
+    };
+
+    const closePopup = () => {
+        setIsPopupVisible(false); // ポップアップを閉じる
     };
 
     return (
@@ -15,6 +20,19 @@ const AddBookButton: React.FC = () => {
             >
                 本を追加
             </button>
+
+            {isPopupVisible && (
+                <CenterPopupLayout onClose={closePopup}>
+                    <h2 className="text-xl font-bold mb-4">本を追加</h2>
+                    <p>ここに追加フォームを作成してください。</p>
+                    <button
+                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
+                        onClick={closePopup}
+                    >
+                        閉じる
+                    </button>
+                </CenterPopupLayout>
+            )}
         </div>
     );
 };
