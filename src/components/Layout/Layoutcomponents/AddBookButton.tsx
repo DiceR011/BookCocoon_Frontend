@@ -24,14 +24,7 @@ const AddBookButton: React.FC = () => {
 
             {isPopupVisible && (
                 <CenterPopupLayout onClose={closePopup}>
-                    <h2 className="text-xl font-bold mb-4">本を追加</h2>
                     <AddBookMenu />
-                    <button
-                        className="mt-4 bg-blue-500 hover:bg-blue-200 text-white px-4 py-2 rounded-lg"
-                        onClick={closePopup}
-                    >
-                        閉じる
-                    </button>
                 </CenterPopupLayout>
             )}
         </div>
