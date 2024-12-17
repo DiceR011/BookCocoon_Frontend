@@ -29,6 +29,8 @@ const Timer: React.FC = () => {
         } else if (timeLeft === -1) {
             clearInterval(timer);
             alert(isWorkTime ? "作業時間が終了しました！休憩時間を開始します。" : "休憩時間が終了しました！作業を再開します。");
+            console.log(`総作業時間: ${Math.floor(totalWorkTime/ 3600)}時間 ${Math.floor(totalWorkTime / 60)}分 ${totalWorkTime % 60}秒`);
+
 
             if (isWorkTime) {
                 setTimeLeft(breakTime);
@@ -41,12 +43,12 @@ const Timer: React.FC = () => {
         }
 
         return () => clearInterval(timer);
-    }, [isRunning, timeLeft, isWorkTime, workTime, breakTime, count]);
+    }, [isRunning, timeLeft, isWorkTime, workTime, breakTime, count, totalWorkTime]);
 
     const toggleTimer = (): void => {
         setIsRunning(!isRunning);
-        if (!isRunning) {
-            console.log(`総作業時間: ${Math.floor(totalWorkTime / 60)}分 ${totalWorkTime % 60}秒`);
+        if (isRunning && isWorkTime) {
+            console.log(`総作業時間: ${Math.floor(totalWorkTime/ 3600)}時間 ${Math.floor(totalWorkTime / 60)}分 ${totalWorkTime % 60}秒`);
         }
     };
 
@@ -54,7 +56,7 @@ const Timer: React.FC = () => {
         setIsRunning(false);
         setTimeLeft(workTime);
         setIsWorkTime(true);
-        console.log(`総作業時間: ${Math.floor(totalWorkTime / 60)}分 ${totalWorkTime % 60}秒`);
+        console.log(`総作業時間: ${Math.floor(totalWorkTime/ 3600)}時間 ${Math.floor(totalWorkTime / 60)}分 ${totalWorkTime % 60}秒`);
     };
 
     const applyChanges = (): void => {
@@ -97,7 +99,7 @@ const Timer: React.FC = () => {
                 )}
             </div>
             <div className="text-sm text-gray-600">
-                総作業時間: {Math.floor(totalWorkTime / 60)}分 {totalWorkTime % 60}秒
+                総作業時間: {Math.floor(totalWorkTime/ 3600)}時間 {Math.floor(totalWorkTime / 60)}分 {totalWorkTime % 60}秒
             </div>
             <TimerControls
                 isRunning={isRunning}
