@@ -24,9 +24,9 @@ const TimerSettings: React.FC<TimerSettingsProps> = ({
     isRunning,
 }) => {
     return (
-        <div className="mt-6 px-4 sm:px-8">
+        <div className="mt-3 sm:mt-6 px-4 sm:px-8">
             <h2 className="text-lg font-semibold text-gray-700">設定</h2>
-            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-6 mt-4">
+            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-2 sm:gap-6 mt-4">
                 {/* 作業時間設定 */}
                 <div>
                     <label className="block text-gray-600 font-medium">作業時間 (分:秒)</label>

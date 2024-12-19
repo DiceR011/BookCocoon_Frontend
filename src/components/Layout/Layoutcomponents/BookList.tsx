@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import CenterPopupLayout from "./CenterPopupLayout";
 import BookInformationPopup from "./BookInformationPopup";
+import { useReadingBookContext } from "../../../Context/ReadingBookContext";
 
 const BookList: React.FC = () => {
     const books = ["本1", "本2", "本3", "本4"];
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [selectedBook, setSelectedBook] = useState<string | null>(null);
-    const [readingBook, setReadingBook] = useState<string | null>(null);
+    const { readingBook, setReadingBook } = useReadingBookContext();
 
     const handleSelectBook = (book: string) => {
         setSelectedBook(book);

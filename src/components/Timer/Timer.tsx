@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import TimerDisplay from "./TimerDisplay";
 import TimerControls from "./TimerControls";
 import TimerSettings from "./TimerSettings";
+import { useReadingBookContext } from "../../Context/ReadingBookContext";
 
 const Timer: React.FC = () => {
     const [workTime, setWorkTime] = useState<number>(25 * 60);
@@ -15,6 +16,7 @@ const Timer: React.FC = () => {
     const [isWorkTime, setIsWorkTime] = useState<boolean>(true);
     const [count, setCount] = useState<number>(0);
     const [totalWorkTime, setTotalWorkTime] = useState<number>(0); // 総作業時間を記録
+    const { readingBook } = useReadingBookContext(); //BookListからReadingBookの値を参照
 
     useEffect(() => {
         let timer: NodeJS.Timeout | undefined;
@@ -98,9 +100,15 @@ const Timer: React.FC = () => {
 
                 )}
             </div>
+            
+            <div className="text-sm text-blue-500 sm:text-lg sm:mb-1">
+                選択中の本: {readingBook}
+            </div>
+            
             <div className="text-sm text-gray-600">
                 総作業時間: {Math.floor(totalWorkTime/ 3600)}時間 {Math.floor(totalWorkTime / 60)}分 {totalWorkTime % 60}秒
             </div>
+            
             <TimerControls
                 isRunning={isRunning}
                 toggleTimer={toggleTimer}

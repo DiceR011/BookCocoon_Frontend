@@ -3,10 +3,11 @@ import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import { HomeLayout } from "./components/index"
 import { TimerLayout } from "./components/index"
 import { LogsLayout } from "./components/index";
+import { ReadingBookProvider } from "./Context/ReadingBookContext";
 
 const App: React.FC = () => {
     return (
-        <>
+        <ReadingBookProvider>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<HomeLayout />}/>
@@ -14,7 +15,7 @@ const App: React.FC = () => {
                     <Route path="/logs" element={<LogsLayout />} />
                 </Routes>
             </BrowserRouter>
-        </>
+        </ReadingBookProvider>
     );
 };
 
