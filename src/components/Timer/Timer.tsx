@@ -102,7 +102,7 @@ const Timer: React.FC = () => {
             </div>
             
             <div className="text-sm text-gray-600 sm:text-lg sm:mb-1">
-                選択中の本: <span className="text-green-600">{readingBook}</span>
+                選択中の本: <span className="text-green-600">{readingBook?.title}</span>
             </div>
             
             <div className="text-sm text-gray-600">

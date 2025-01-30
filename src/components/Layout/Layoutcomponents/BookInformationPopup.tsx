@@ -1,7 +1,16 @@
 import React from "react";
 
+// 書籍の型
+interface Book {
+    book_id: number;
+    author: string;
+    title: string;
+    isbn: string;
+    total_page: number;
+}
+
 interface BookInformationPopupProps {
-    selectedBook: string | null;
+    selectedBook: Book | null;
     isReading: boolean;
     onReadBook: () => void;
     onDeselectBook: () => void;
@@ -13,10 +22,17 @@ const BookInformationPopup: React.FC<BookInformationPopupProps> = ({
     onReadBook,
     onDeselectBook,
 }) => {
+    if (!selectedBook) {
+        return <div className="p-4">本の情報が見つかりません。</div>;
+    }
+
     return (
         <div className="p-4">
-            <h2 className="text-xl font-bold mb-4">{selectedBook}</h2>
-            <p>ここに詳細情報を表示します。</p>
+            <h2 className="text-xl font-bold mb-2">{selectedBook.title}</h2>
+            <p className="text-sm text-gray-600">著者: {selectedBook.author}</p>
+            <p className="text-sm text-gray-600">ISBN: {selectedBook.isbn}</p>
+            <p className="text-sm text-gray-600">総ページ数: {selectedBook.total_page}ページ</p>
+            
             {isReading ? (
                 <button
                     onClick={onDeselectBook}

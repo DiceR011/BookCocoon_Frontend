@@ -5,14 +5,14 @@ import { useReadingBookContext } from "../../../Context/ReadingBookContext";
 import axios from "axios";
 
 const BookList: React.FC = () => {
-    const [books, setBooks] = useState<{ book_id: number; author: string; title: string; isbn: string; total_page: number;}[]>([]);
+    const [books, setBooks] = useState<{ book_id: number; author: string; title: string; isbn: string; total_page: number; }[]>([]);
     const [isPopupVisible, setIsPopupVisible] = useState(false);
-    const [selectedBook, setSelectedBook] = useState<number | null>(null);
+    const [selectedBookID, setSelectedBookID] = useState<number | null>(null);
     const { readingBook, setReadingBook } = useReadingBookContext();
 
     // 本を選択したときの処理
     const handleSelectBook = (book_id: number) => {
-        setSelectedBook(book_id);
+        setSelectedBookID(book_id);
         setIsPopupVisible(true);
     };
 
@@ -21,28 +21,28 @@ const BookList: React.FC = () => {
         setIsPopupVisible(false);
     };
 
+    // 選択された本を取得
+    const selectedBook = books.find(book => book.book_id === selectedBookID) || null;
+
     // 本を読む状態にする処理
     const handleReadBook = () => {
         closePopup();
-        setReadingBook(selectedBook); // book_idをset
+        if (selectedBook) {
+            setReadingBook(selectedBook); // 選択した本の情報をコンテキストにセット
+        }
     };
 
     // 本の選択を解除する処理
     const handleDeselectBook = () => {
         closePopup();
-        setReadingBook(null); // nullにリセット
+        setReadingBook(null); // 選択をリセット
     };
 
     // ReactのuseEffectでデータを取得
     useEffect(() => {
-        // FastAPIのエンドポイントから書籍情報を取得
-        axios.get("http://localhost:8000/books") // FastAPIのURLに合わせる
+        axios.get("http://localhost:8000/books")
             .then(response => {
-                // レスポンスからbook_idとtitleを抽出して状態にセット
-                setBooks(response.data.map((book: { book_id: string; title: string }) => ({
-                    book_id: book.book_id,
-                    title: book.title,
-                })));
+                setBooks(response.data); // すべての本のデータをセット
             })
             .catch(error => {
                 console.error("Error fetching books:", error);
@@ -54,26 +54,25 @@ const BookList: React.FC = () => {
             <ul className="space-y-2 p-4">
                 {books.map((book) => (
                     <li
-                        key={book.book_id} // book_idをkeyとして使用
+                        key={book.book_id}
                         className={`px-2 py-1 cursor-pointer ${
-                            readingBook === book.book_id ? "bg-blue-100" : "hover:bg-gray-200"
+                            readingBook?.book_id === book.book_id ? "bg-blue-100" : "hover:bg-gray-200"
                         }`}
                         onClick={() => handleSelectBook(book.book_id)}
                     >
                         {book.title}{" "}
-                        {readingBook === book.book_id && (
+                        {readingBook?.book_id === book.book_id && (
                             <span className="text-sm px-1 text-blue-500">(選択中)</span>
                         )}
                     </li>
                 ))}
             </ul>
 
-            {isPopupVisible && (
+            {isPopupVisible && selectedBook && (
                 <CenterPopupLayout onClose={closePopup}>
                     <BookInformationPopup
-                        books = {books}
                         selectedBook={selectedBook}
-                        isReading={readingBook === selectedBook}
+                        isReading={readingBook?.book_id === selectedBook.book_id}
                         onReadBook={handleReadBook}
                         onDeselectBook={handleDeselectBook}
                     />
@@ -82,6 +81,5 @@ const BookList: React.FC = () => {
         </div>
     );
 };
-
 
 export default BookList;
