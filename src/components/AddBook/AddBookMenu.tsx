@@ -5,14 +5,6 @@ import ManualForm from "./forms/ManualForm";
 const AddBookMenu: React.FC = () => {
     const [mode, setMode] = useState<"isbn" | "manual" | null>(null);
 
-    const handleIsbnSubmit = (isbn: string) => {
-        console.log("ISBNコードで本を登録:", isbn);
-    };
-
-    const handleManualSubmit = (title: string, author: string, publisher: string) => {
-        console.log("手動で本を登録:", title, author, publisher);
-    };
-
     return (
         <div className="flex items-center">
             {mode === null && (
@@ -33,13 +25,11 @@ const AddBookMenu: React.FC = () => {
             )}
             {mode === "isbn" && (
                 <ISBNForm
-                    onSubmit={handleIsbnSubmit}
                     onBack={() => setMode(null)}
                 />
             )}
             {mode === "manual" && (
                 <ManualForm
-                    onSubmit={handleManualSubmit}
                     onBack={() => setMode(null)}
                 />
             )}

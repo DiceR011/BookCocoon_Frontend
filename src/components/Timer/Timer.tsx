@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import TimerDisplay from "./TimerDisplay";
 import TimerControls from "./TimerControls";
 import TimerSettings from "./TimerSettings";
-import { useReadingBookContext } from "../../Context/ReadingBookContext";
+import { useReadingBookContext } from "../../Context/ReadingBookContext/useReadingBookContext";
 
 const Timer: React.FC = () => {
     const [workTime, setWorkTime] = useState<number>(25 * 60);

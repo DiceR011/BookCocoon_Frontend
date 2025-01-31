@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import CenterPopupLayout from "./CenterPopupLayout";
 import BookInformationPopup from "./BookInformationPopup";
-import { useReadingBookContext } from "../../../Context/ReadingBookContext";
+import { useBooksContext } from "../../../Context/BooksContext/useBooksContext";
+import { useReadingBookContext } from "../../../Context/ReadingBookContext/useReadingBookContext";
 import axios from "axios";
 
 const BookList: React.FC = () => {
-    const [books, setBooks] = useState<{ book_id: number; author: string; title: string; isbn: string; total_page: number; }[]>([]);
+    const { books, setBooks } = useBooksContext();
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [selectedBookID, setSelectedBookID] = useState<number | null>(null);
     const { readingBook, setReadingBook } = useReadingBookContext();
@@ -47,7 +48,7 @@ const BookList: React.FC = () => {
             .catch(error => {
                 console.error("Error fetching books:", error);
             });
-    }, []);
+    }, [setBooks]);
 
     return (
         <div className="flex-1 overflow-y-auto">

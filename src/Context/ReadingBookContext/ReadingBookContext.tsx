@@ -1,13 +1,5 @@
-import React, { createContext, useState, useContext } from "react";
-
-// 書籍の型を定義
-interface Book {
-    book_id: number;
-    author: string;
-    title: string;
-    isbn: string;
-    total_page: number;
-}
+import React, { createContext, useState, ReactNode } from "react";
+import { Book } from "../../types/Book_type";
 
 // Contextの型を定義
 interface ReadingBookContextType {
@@ -22,7 +14,7 @@ const ReadingBookContext = createContext<ReadingBookContextType>({
 });
 
 // ContextのProviderを定義
-export const ReadingBookProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const ReadingBookProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [readingBook, setReadingBook] = useState<Book | null>(null);
 
     return (
@@ -32,5 +24,4 @@ export const ReadingBookProvider: React.FC<{ children: React.ReactNode }> = ({ c
     );
 };
 
-// Contextを使うためのカスタムフック
-export const useReadingBookContext = () => useContext(ReadingBookContext);
+export default ReadingBookContext;
