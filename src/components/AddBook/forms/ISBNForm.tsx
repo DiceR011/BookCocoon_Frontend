@@ -131,6 +131,10 @@ const ISBNForm: React.FC<ISBNFormProps> = ({ onBack }) => {
                 >
                     {loading ? "登録中..." : "本を登録"}
                 </button>
+
+                <p className="text-xs text-gray-500 mt-3">
+                    * ISBNコードはハイフン抜きで、13文字の数字を入力してください。
+                </p>
             </form>
         </div>
     );

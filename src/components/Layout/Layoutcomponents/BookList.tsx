@@ -73,6 +73,7 @@ const BookList: React.FC = () => {
                 <CenterPopupLayout onClose={closePopup}>
                     <BookInformationPopup
                         selectedBook={selectedBook}
+                        selectedBookId={selectedBook.book_id}
                         isReading={readingBook?.book_id === selectedBook.book_id}
                         onReadBook={handleReadBook}
                         onDeselectBook={handleDeselectBook}
