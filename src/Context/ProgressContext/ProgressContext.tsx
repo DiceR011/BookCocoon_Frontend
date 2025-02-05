@@ -3,22 +3,22 @@ import { Progress } from "../../types/Progress_type";
 
 // Contextの型を定義
 interface ProgressContextType {
-    Progress: Progress | null;
+    progress: Progress | null;
     setProgress: (progress: Progress | null) => void;
 }
 
 // デフォルト値
 const ProgressContext = createContext<ProgressContextType>({
-    Progress: null,
+    progress: null,
     setProgress: () => {},
 });
 
 // ContextのProviderを定義
 export const ProgressProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [Progress, setProgress] = useState<Progress | null>(null);
+    const [progress, setProgress] = useState<Progress | null>(null);
 
     return (
-        <ProgressContext.Provider value={{ Progress, setProgress }}>
+        <ProgressContext.Provider value={{ progress, setProgress }}>
             {children}
         </ProgressContext.Provider>
     );

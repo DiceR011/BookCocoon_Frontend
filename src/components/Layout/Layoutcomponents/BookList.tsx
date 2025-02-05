@@ -3,10 +3,12 @@ import CenterPopupLayout from "./CenterPopupLayout";
 import BookInformationPopup from "./BookInformationPopup";
 import { useBooksContext } from "../../../Context/BooksContext/useBooksContext";
 import { useReadingBookContext } from "../../../Context/ReadingBookContext/useReadingBookContext";
+import { useProgressContext } from "../../../Context/ProgressContext/useProgressContext";
 import axios from "axios";
 
 const BookList: React.FC = () => {
     const { books, setBooks } = useBooksContext();
+    const { progress } = useProgressContext();
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [selectedBookID, setSelectedBookID] = useState<number | null>(null);
     const { readingBook, setReadingBook } = useReadingBookContext();
@@ -26,10 +28,21 @@ const BookList: React.FC = () => {
     const selectedBook = books.find(book => book.book_id === selectedBookID) || null;
 
     // 本を読む状態にする処理
-    const handleReadBook = () => {
+    const handleReadBook =async () => {
         closePopup();
         if (selectedBook) {
             setReadingBook(selectedBook); // 選択した本の情報をコンテキストにセット
+        if (progress?.read_state === "Unread"){
+            try{
+                await axios.patch(`http://localhost:8000/books/${selectedBook.book_id}/progress`, {
+                    read_state: "Reading",
+                    read_time: progress.read_time,
+                    current_page: progress.current_page
+                });
+            } catch (error) {
+                console.error("Error updating read state:", error)
+            }
+        }
         }
     };
 
