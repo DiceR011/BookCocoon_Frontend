@@ -3,6 +3,7 @@ import TimerDisplay from "./TimerDisplay";
 import TimerControls from "./TimerControls";
 import TimerSettings from "./TimerSettings";
 import { useReadingBookContext } from "../../Context/ReadingBookContext/useReadingBookContext";
+import { useProgressContext } from "../../Context/ProgressContext/useProgressContext";
 
 const Timer: React.FC = () => {
     const [workTime, setWorkTime] = useState<number>(25 * 60);
@@ -17,6 +18,7 @@ const Timer: React.FC = () => {
     const [count, setCount] = useState<number>(0);
     const [totalWorkTime, setTotalWorkTime] = useState<number>(0); // 総作業時間を記録
     const { readingBook } = useReadingBookContext(); //BookListからReadingBookの値を参照
+    const { progress } = useProgressContext();
 
     useEffect(() => {
         let timer: NodeJS.Timeout | undefined;
