@@ -3,7 +3,8 @@ import TimerDisplay from "./TimerDisplay";
 import TimerControls from "./TimerControls";
 import TimerSettings from "./TimerSettings";
 import { useReadingBookContext } from "../../Context/ReadingBookContext/useReadingBookContext";
-import { useProgressContext } from "../../Context/ProgressContext/useProgressContext";
+import { useReadingProgressContext } from "../../Context/ReadingProgressContext/useProgressContext";
+import axios from "axios";
 
 const Timer: React.FC = () => {
     const [workTime, setWorkTime] = useState<number>(25 * 60);
@@ -18,24 +19,44 @@ const Timer: React.FC = () => {
     const [count, setCount] = useState<number>(0);
     const [totalWorkTime, setTotalWorkTime] = useState<number>(0); // 総作業時間を記録
     const { readingBook } = useReadingBookContext(); //BookListからReadingBookの値を参照
-    const { progress } = useProgressContext();
+    const { readingProgress } = useReadingProgressContext();
 
     useEffect(() => {
+        if (readingBook) {
+            setTotalWorkTime(readingProgress?.read_time || 0);
+        }
+    }, [readingBook, readingProgress?.read_time]);
+    
+    useEffect(() => {
         let timer: NodeJS.Timeout | undefined;
-
+    
         if (isRunning && timeLeft > -1) {
             timer = setInterval(() => {
                 setTimeLeft((prevTime) => prevTime - 1);
-                if (isWorkTime && timeLeft != 0) {
-                    setTotalWorkTime((prevTotal) => prevTotal + 1); // 作業時間を加算
+                if (isWorkTime && timeLeft !== 0) {
+                    setTotalWorkTime((prevTotal) => prevTotal + 1);
                 }
             }, 1000);
         } else if (timeLeft === -1) {
             clearInterval(timer);
             alert(isWorkTime ? "作業時間が終了しました！休憩時間を開始します。" : "休憩時間が終了しました！作業を再開します。");
-            console.log(`総作業時間: ${Math.floor(totalWorkTime/ 3600)}時間 ${Math.floor(totalWorkTime / 60)}分 ${totalWorkTime % 60}秒`);
-
-
+            console.log(`総作業時間: ${Math.floor(totalWorkTime / 3600)}時間 ${Math.floor(totalWorkTime / 60)}分 ${totalWorkTime % 60}秒`);
+    
+            // 非同期処理を別関数として定義
+            const updateReadTime = async () => {
+                try {
+                    await axios.patch(`http://localhost:8000/books/${readingProgress?.book_id}/progress`, {
+                        read_state: readingProgress?.read_state,
+                        read_time: totalWorkTime,
+                        current_page: readingProgress?.current_page
+                    });
+                } catch (error) {
+                    console.error("Error updating read time", error);
+                }
+            };
+    
+            updateReadTime(); // 非同期関数を呼び出す
+    
             if (isWorkTime) {
                 setTimeLeft(breakTime);
                 setCount(count + 1);
@@ -45,22 +66,41 @@ const Timer: React.FC = () => {
             setIsWorkTime(!isWorkTime);
             setIsRunning(false);
         }
-
+    
         return () => clearInterval(timer);
-    }, [isRunning, timeLeft, isWorkTime, workTime, breakTime, count, totalWorkTime]);
+    }, [isRunning, timeLeft, isWorkTime, workTime, breakTime, count, readingProgress, totalWorkTime]);
+    
 
-    const toggleTimer = (): void => {
+    const toggleTimer =async () => {
         setIsRunning(!isRunning);
         if (isRunning && isWorkTime) {
             console.log(`総作業時間: ${Math.floor(totalWorkTime/ 3600)}時間 ${Math.floor(totalWorkTime / 60)}分 ${totalWorkTime % 60}秒`);
+            try{
+                await axios.patch(`http://localhost:8000/books/${readingProgress?.book_id}/progress`,{
+                    read_state: readingProgress?.read_state,
+                    read_time: totalWorkTime,
+                    current_page: readingProgress?.current_page
+                });
+            } catch (error) {
+                console.error("Error updating read time", error)
+            }
         }
     };
 
-    const resetTimer = (): void => {
+    const resetTimer =async () => {
         setIsRunning(false);
         setTimeLeft(workTime);
         setIsWorkTime(true);
         console.log(`総作業時間: ${Math.floor(totalWorkTime/ 3600)}時間 ${Math.floor(totalWorkTime / 60)}分 ${totalWorkTime % 60}秒`);
+        try{
+            await axios.patch(`http://localhost:8000/books/${readingProgress?.book_id}/progress`,{
+                read_state: readingProgress?.read_state,
+                read_time: totalWorkTime,
+                current_page: readingProgress?.current_page
+            });
+        } catch (error) {
+            console.error("Error updating read time", error)
+        }
     };
 
     const applyChanges = (): void => {
@@ -108,8 +148,9 @@ const Timer: React.FC = () => {
             </div>
             
             <div className="text-sm text-gray-600">
-                総作業時間: {Math.floor(totalWorkTime/ 3600)}時間 {Math.floor(totalWorkTime / 60)}分 {totalWorkTime % 60}秒
+                総作業時間: {Math.floor(totalWorkTime / 3600)}時間 {Math.floor((totalWorkTime % 3600) / 60)}分 {totalWorkTime % 60}秒
             </div>
+
             
             <TimerControls
                 isRunning={isRunning}

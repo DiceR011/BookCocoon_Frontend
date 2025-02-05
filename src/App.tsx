@@ -6,23 +6,26 @@ import { LogsLayout } from "./components/index";
 import { ReadingBookProvider } from "./Context/ReadingBookContext/ReadingBookContext";
 import { BooksProvider } from "./Context/BooksContext/BooksContext";
 import { ProgressProvider } from "./Context/ProgressContext/ProgressContext";
+import { ReadingProgressProvider } from "./Context/ReadingProgressContext/ProgressContext";
 
 
 const App: React.FC = () => {
     return (
-        <ProgressProvider>
-            <BooksProvider>
-                <ReadingBookProvider>
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/" element={<HomeLayout />}/>
-                            <Route path="/timer" element={<TimerLayout />} />
-                            <Route path="/logs" element={<LogsLayout />} />
-                        </Routes>
-                    </BrowserRouter>
-                </ReadingBookProvider>
-            </BooksProvider>
-        </ProgressProvider>
+        <ReadingProgressProvider>
+            <ProgressProvider>
+                <BooksProvider>
+                    <ReadingBookProvider>
+                        <BrowserRouter>
+                            <Routes>
+                                <Route path="/" element={<HomeLayout />}/>
+                                <Route path="/timer" element={<TimerLayout />} />
+                                <Route path="/logs" element={<LogsLayout />} />
+                            </Routes>
+                        </BrowserRouter>
+                    </ReadingBookProvider>
+                </BooksProvider>
+            </ProgressProvider>
+        </ReadingProgressProvider>
     );
 };
 

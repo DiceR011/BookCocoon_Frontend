@@ -4,6 +4,7 @@ import BookInformationPopup from "./BookInformationPopup";
 import { useBooksContext } from "../../../Context/BooksContext/useBooksContext";
 import { useReadingBookContext } from "../../../Context/ReadingBookContext/useReadingBookContext";
 import { useProgressContext } from "../../../Context/ProgressContext/useProgressContext";
+import { useReadingProgressContext } from "../../../Context/ReadingProgressContext/useProgressContext";
 import axios from "axios";
 
 const BookList: React.FC = () => {
@@ -12,6 +13,7 @@ const BookList: React.FC = () => {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [selectedBookID, setSelectedBookID] = useState<number | null>(null);
     const { readingBook, setReadingBook } = useReadingBookContext();
+    const { setReadingProgress } = useReadingProgressContext();
 
     // 本を選択したときの処理
     const handleSelectBook = (book_id: number) => {
@@ -43,6 +45,8 @@ const BookList: React.FC = () => {
                 console.error("Error updating read state:", error)
             }
         }
+
+        setReadingProgress(progress);
         }
     };
 
