@@ -1,3 +1,7 @@
+import { useState } from "react";
+import CenterPopupLayout from "../Layout/Layoutcomponents/CenterPopupLayout";
+import FinishReadMenu from "../FinishRead/FinishReadMenu";
+
 interface TimerSettingsProps {
     newWorkMinutes: number;
     newWorkSeconds: number;
@@ -9,6 +13,8 @@ interface TimerSettingsProps {
     setNewBreakSeconds: (value: number) => void;
     applyChanges: () => void;
     isRunning: boolean;
+    isReading: boolean;
+    readTime: number;
 }
 
 const TimerSettings: React.FC<TimerSettingsProps> = ({
@@ -22,7 +28,20 @@ const TimerSettings: React.FC<TimerSettingsProps> = ({
     setNewBreakSeconds,
     applyChanges,
     isRunning,
+    isReading,
+    readTime
 }) => {
+    const [ isPopupVisible, setIsPopupVisible ] = useState(false);
+
+    const handleFinishRead = () => {
+        setIsPopupVisible(true); // ポップアップを表示
+        console.log(readTime)
+    };
+
+    const closePopup = () => {
+        setIsPopupVisible(false); // ポップアップを閉じる
+    };
+
     return (
         <div className="mt-3 sm:mt-6 px-4 sm:px-8">
             <h2 className="text-lg font-semibold text-gray-700">設定</h2>
@@ -73,14 +92,29 @@ const TimerSettings: React.FC<TimerSettingsProps> = ({
             </div>
 
             {/* 変更を適用ボタン */}
-            <div className="mt-6 text-center sm:text-left">
+            <div className="mt-6 flex justify-between w-full gap-3">
                 <button
                     onClick={applyChanges}
-                    className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition w-full sm:w-auto"
+                    className="px-6 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
                     disabled={isRunning}
                 >
                     変更を適用
                 </button>
+                {isReading && (
+                    <button
+                        onClick={handleFinishRead}
+                        className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                        disabled={isRunning}
+                    >
+                        読書を終える
+                    </button>
+                )}
+
+                {isPopupVisible && (
+                    <CenterPopupLayout onClose={closePopup}>
+                        <FinishReadMenu readTime={readTime}/>
+                    </CenterPopupLayout>
+                )}
             </div>
         </div>
     );

@@ -18,10 +18,12 @@ const Timer: React.FC = () => {
     const [isWorkTime, setIsWorkTime] = useState<boolean>(true);
     const [count, setCount] = useState<number>(0);
     const [totalWorkTime, setTotalWorkTime] = useState<number>(0); // 総作業時間を記録
+    const [ isReading, setIsReading] = useState<boolean>(false);
     const { readingBook } = useReadingBookContext(); //BookListからReadingBookの値を参照
     const { readingProgress } = useReadingProgressContext();
 
     useEffect(() => {
+        setIsReading(!!readingBook);
         if (readingBook) {
             setTotalWorkTime(readingProgress?.read_time || 0);
         }
@@ -168,6 +170,8 @@ const Timer: React.FC = () => {
                 setNewBreakSeconds={setNewBreakSeconds}
                 applyChanges={applyChanges}
                 isRunning={isRunning}
+                isReading={isReading}
+                readTime={totalWorkTime}
             />
         </div>
     );
